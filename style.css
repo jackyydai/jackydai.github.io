@@ -13,6 +13,60 @@
 
 
 
+
+
+@keyframes moonRotation {
+    0% {
+		background-position: 0% 0%;
+    border: 0px solid #00000000;
+	}
+	50% {
+		background-position: 150% 0%;
+    border: 0px solid #00000000;
+	}
+	100% {
+		background-position: 300% 0%;
+    border: 0px solid #00000000;
+	}
+}
+
+
+
+.moon-background{
+  /* top: 3.5rem; */
+  /* right: 50%; */
+  display: block;
+  width: 30rem;
+  height: 30rem;
+  
+  position: fixed;
+  border-radius: 50%;
+  background-image: url('https://www.solarsystemscope.com/textures/download/2k_moon.jpg');
+  background-repeat: repeat-x;
+  background-size: 110% 100%;
+  opacity: 1;
+  animation-name: moonRotation;
+  animation-duration: 15s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards !important;
+  box-shadow: inset -10px 8px 6px -5px #ffffff, 
+inset 20px -20px 40px 30px rgba(0, 0, 0, 0.9), 7px -6px 14px rgba(255, 255, 255, 0.3215686275);
+top: 150px;
+
+    z-index: -1;
+    position: fixed;
+    top: 200px; 
+    left: 300px;
+    /* width: 40%;
+    height: auto; */
+    transform: translateX(100%); 
+}
+
+
+
+
+
 /* .type-primary {
     font-weight: var(--f-weight);
     font-size: 3rem;
@@ -21,19 +75,17 @@
 
 .intro{
     width: 50%;
+    /* animation: pulse 1s infinite alternate; */
 }
 
-@media screen and (max-width: 600px) {
-    .intro {
-        width: 100%; /* Set a fixed width when the screen width is less than 800px */
-    }
-}
+
 
 
 html {
     font-size: 16px;
     line-height: 1.5;
-    background: rgb(0, 0, 0);
+    /* background: black; */
+    background: rgb(15, 15, 16);
     /* font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;  */
     font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif;
     color: var(--c-secondary);
@@ -46,12 +98,20 @@ h1{
     width: 1px;
     font-size: 100px;
     line-height: 1;
+    mix-blend-mode: difference;
+    transition: .5s;
+    /* animation: pulse 1s infinite alternate; */
+}
+h1:hover {
+    transform:  scale(1.2);
+    transition: .5s;
 }
 
 h2{
     font-weight: var(--f-weight);
     font-size: 3rem;
     line-height: 1.4;
+    mix-blend-mode: difference;
 }
 
 .canvas-container{
@@ -63,11 +123,45 @@ h2{
     z-index: -1;
     position: fixed;
     top: 150px; 
-    left: 150px;
+    left: 180px;
+    width: 570px;
+    height: auto;
+    transform: translateX(100%);
+    /* animation: pulse 1s infinite alternate; */
+    /* position: absolute; */
+}
+
+@keyframes pulse {
+    from {
+      transform:  scale(1);
+    }
+    to {
+      transform:  scale(1.1);
+    }
+  }
+
+.fixed-image:hover {
+    animation-play-state: paused;
+}
+
+@media screen and (max-width: 1000px) {
+    .intro {
+        width: 100%; /* Set a fixed width when the screen width is less than 800px */
+    }
+    .fixed-image{
+        left: -500px;
+    }
+}
+
+/* .fixed-image2 {
+    z-index: -2;
+    position: fixed;
+    top: 150px; 
+    left: 180px;
     width: 40%;
     height: auto;
     transform: translateX(100%);
-}
+} */
 
 .canvas-container .window{
 
@@ -83,12 +177,22 @@ h2{
 }
 
 
+
+
 .timeline {
     grid-area: timeline;
+    transition: .5s;
+    /* filter: drop-shadow(2px 2px 5px #232323); */
+}
+
+.timeline:hover {
+    transform: translateY(-1rem);
+    transition: .5s;
 }
 
 .timeline-entry {
     /* z-index: 1; */
+    /* mix-blend-mode: difference; */
     background: var(--c-tertiary);
     backdrop-filter: saturate(180%) blur(40px);
     -webkit-backdrop-filter: saturate(180%) blur(40px);
@@ -118,6 +222,8 @@ h2{
 }
 
 .timeline-co {
+   
+    
     margin: calc(var(--v-space) * .5) 0 0;
     grid-area: co;
     margin-right: 10%;
@@ -148,26 +254,42 @@ h2{
     /* width: 35%; */
     grid-area: description;
     /* margin-left: 10%; */
+    /* mix-blend-mode: difference; */
 }
 
 
 
 
 table {
-    border: 1px solid black;
-    font-family: sans-serif;
-    width: 75%;
+    /* background: var(--c-tertiary);
+    backdrop-filter: saturate(180%) blur(40px);
+    -webkit-backdrop-filter: saturate(180%) blur(40px);*/
+    /* color: rgb(0, 0, 0); */
+    width: 75%; 
+    margin: 0 auto; 
+    mix-blend-mode: difference; 
+    border-collapse:separate;
+    border:solid black 1px;
+    border-radius:6px;
   }
 
-  table caption {
+
+table caption {
+    /* background-color: var(--c-tertiary); */
     font-size: 2em;
     font-weight: bolder;
-  }
+    font-size: 2em;
+    mix-blend-mode: difference;
+    
+}
+
+
 
   thead {
+    
     font-weight: bolder;
-    background-color: green;
-    color: white;
+    background-color: var(--c-primary);
+    color: rgb(0, 0, 0);
     text-align: center;
     vertical-align: bottom;
     font-family: sans-serif;
@@ -175,26 +297,38 @@ table {
 
   tbody {
     text-align: center;
-    background-color: #ecffdc; /* Nyanza */
+    background-color: whitesmoke;
+    color: black ;
   }
 
   th {
     text-align: center;
     padding: 5px;
+    border: 5px solid #ddd;
+    border-left:solid black 1px;
+    border-top:solid black 1px;
+    
   }
 
   td {
     padding: 5px;
+    border: 5px solid #ddd;
+    border-left:solid black 1px;
+    border-top:solid black 1px;
   }
 
   tbody th {
-    background-color: #98fb98; /* Mint Green */  
+    background-color: gray; 
     text-align: left;
+    padding: 5px;
+    border: 5px solid #ddd;
+    border-left:solid black 1px;
+    border-top:solid black 1px;
   }
 
   tfoot {
-    background-color: green;
-    color: white;
+    color: black ;
+    background-color: var(--c-secondary);
     text-align: center;
   }
 
@@ -266,3 +400,36 @@ footer > .footer-content {
     0% { opacity: 0; }
     100% { opacity: 1; }
 }
+
+@keyframes party {
+    0% {
+        background-color: #ff4136;
+    }
+    25% {
+        background-color: #ffdc00;
+    }
+    50% {
+        background-color: #2ecc40;
+    }
+    75% {
+        background-color: #0074d9;
+    }
+    100% {
+        background-color: #f012be;
+    }
+}
+
+
+.link{
+    color: var(--c-primary);
+}
+
+.link:hover {
+    color:rgb(0, 0, 0);
+    animation: party 1s infinite;
+}
+
+.link:visited {
+    color: var(--c-secondary);
+}
+
