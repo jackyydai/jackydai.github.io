@@ -59,7 +59,7 @@ function createSphere(initialScale = 0) {
         roughness: 0.85,
         metalness: 0.2,  // More matte appearance
         transparent: true, // Enable transparency
-        opacity: 0.9, // Adjust transparency (0 = invisible, 1 = solid)
+        opacity: 0.99, // Adjust transparency (0 = invisible, 1 = solid)
         depthWrite: false // Helps avoid transparency issues
     });
     const geometry = new THREE.SphereGeometry(sphereRadius, 64, 64);
@@ -189,6 +189,8 @@ function animate() {
 
     renderer.render(scene, camera);
 }
+
+
 
 // Resize Handling (Ensures Three.js scene resizes with the window)
 window.addEventListener("resize", () => {

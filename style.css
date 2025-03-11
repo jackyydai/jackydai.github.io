@@ -136,10 +136,10 @@ h2{
     /* filter: drop-shadow(2px 2px 5px #232323); */
 }
 
-.timeline:hover {
+/* .timeline:hover {
     transform: translateY(-1rem);
     transition: .5s;
-}
+} */
 
 .timeline-entry {
     /* z-index: 1; */
