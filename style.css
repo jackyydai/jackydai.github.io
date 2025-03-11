@@ -13,65 +13,17 @@
 
 
 
-
-
-@keyframes moonRotation {
-    0% {
-		background-position: 0% 0%;
-    border: 0px solid #00000000;
-	}
-	50% {
-		background-position: 150% 0%;
-    border: 0px solid #00000000;
-	}
-	100% {
-		background-position: 300% 0%;
-    border: 0px solid #00000000;
-	}
-}
-
-
-
-.moon-background{
-  /* top: 3.5rem; */
-  /* right: 50%; */
-  display: block;
-  width: 30rem;
-  height: 30rem;
-  
-  position: fixed;
-  border-radius: 50%;
-  background-image: url('https://www.solarsystemscope.com/textures/download/2k_moon.jpg');
-  background-repeat: repeat-x;
-  background-size: 110% 100%;
-  opacity: 1;
-  animation-name: moonRotation;
-  animation-duration: 15s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  animation-fill-mode: forwards !important;
-  box-shadow: inset -10px 8px 6px -5px #ffffff, 
-inset 20px -20px 40px 30px rgba(0, 0, 0, 0.9), 7px -6px 14px rgba(255, 255, 255, 0.3215686275);
-top: 150px;
-
-    z-index: -1;
+canvas {
     position: fixed;
-    top: 200px; 
-    left: 300px;
-    /* width: 40%;
-    height: auto; */
-    transform: translateX(100%); 
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1; /* Puts Three.js behind everything */
+    /* background: transparent !important; Ensure full transparency */
+    pointer-events: none; /* Prevents blocking interactions */
 }
 
-
-
-
-
-/* .type-primary {
-    font-weight: var(--f-weight);
-    font-size: 3rem;
-    line-height: 1.4;
-} */
 
 .intro{
     width: 50%;
@@ -115,20 +67,19 @@ h2{
 }
 
 .canvas-container{
+    position: relative;
     margin: 0 auto;
     width: 90%;
 }
 
 .fixed-image {
-    z-index: -1;
+    z-index: -2;
     position: fixed;
     top: 150px; 
     left: 180px;
     width: 570px;
     height: auto;
     transform: translateX(100%);
-    /* animation: pulse 1s infinite alternate; */
-    /* position: absolute; */
 }
 
 @keyframes pulse {

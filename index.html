@@ -8,22 +8,27 @@
     <title> Jacky Dai </title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
-    <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Palanquin:wght@400;500;600;700&family=Pixelify+Sans:wght@700&display=swap" rel="stylesheet"> -->
 
-
-    <!-- <script src="toggle.js"></script> -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.min.js",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.158/examples/jsm/",
+                "cannon-es": "https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js"
+            }
+        }
+        </script>
 </head>
 <body>
+    
     <div class="canvas-container">
-        <!-- <div class="moon-background"></div> -->
+        
+        <script type="module" src="main.js"></script>
         <img src="moon.png" alt="moon Image" class="fixed-image">
-        <!-- <img src="earth.png" alt="earth Image" class="fixed-image2"> -->
+        <!-- <div class="moon-background"></div> -->
+        
         <br><br><br><br><br><br>
         <h1> 
-            <!-- <a class href="https://www.linkedin.com/in/jackydai/">Jacky -->
-                <!-- Dai</a> -->
                 Jacky Dai
         </h1>
         <br>
@@ -40,7 +45,7 @@
                 <h2 class="timeline-co type-primary"><a> University of California, Los Angeles </a> <span class="timeline-time " style = "font-size: 70%;" >Expected Graduation: June 2025</span></h2 >
                 <div class="timeline-description">
                     <p>
-                        B.S. Computer Science | GPA: 3.83
+                        B.S. Computer Science | GPA: 3.81
                     </p>
                     <!-- <a id="cs-course-link" onclick="toggle(this);"> 👉 Classes I've taken</a> -->
                     <ul id="cs-course-content">
@@ -66,8 +71,17 @@
                         Software Engineering Intern 
                     </p>  
                     <p>
-                        More to come later!
-                    </p>                    
+                        Automated test pipelines, reducing manual test time by 90% and streamlining the process for engineers and customers.
+                    </p> 
+                    <p>
+                        Implemented robust CI/CD pipelines with Jenkins and GitLab CI, cutting deployment time and errors by 40%
+                    </p>
+                    <p>
+                        Improved monitoring and logging solutions using Prometheus and Grafana, leading to a 40% faster issue resolution 
+                    </p>
+                    <p>
+                        Placed 1st in the Machine Learning Hackathon by developing and optimizing models for Sandia-specific challenges.
+                    </p>                   
                 </div>
             </article>
 
@@ -168,73 +182,6 @@
                 </div>
             </article>            
         </div>
-
-        <!-- <table>
-            <caption>Money spent from 2019 - 2024</caption>
-            <thead>
-                <tr>
-                    <th scope="col" rowspan="2">Category</th>
-                    <th scope="col" rowspan="2">Type</th>
-                    <th scope="col" rowspan="2">2019</th>
-                    <th scope="col" rowspan="2">2019</th>
-                    <th scope="col" rowspan="2">2022</th>
-                    <th scope="col" colspan="2">COVID</th>
-                    <th scope="col" rowspan="2">2023</th>
-                    <th scope="col" rowspan="2">2024</th>
-                </tr>
-                <tr>
-                    <th scope="col">2020</th>
-                    <th scope="col">2021</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row" rowspan="2">Living</th>
-                    <th scope="row" rowspan="1">Food</th>
-                    <td>4,335 </td>
-                    <td>4,935 </td>
-                    <td>5,200 </td>
-                    <td>5,235 </td>
-                    <td>5,225 </td>
-                    <td>5,595 </td>
-                    <td>5,715 </td>
-                </tr>
-                <tr>
-                    <th scope="row">Transportation</th>
-                    <td>100</td>
-                    <td>100</td>      
-                    <td>100</td>
-                    <td>0</td>
-                    <td>0</td>
-                    <td>20</td>
-                    <td>20</td>
-                </tr>
-                <tr>
-                    <th scope="row">Misc</th>
-                    <th scope="row">Clothes</th>
-                    <td>100</td>
-                    <td>200</td>      
-                    <td>150</td>
-                    <td>300</td>
-                    <td>100</td>
-                    <td>50</td>
-                    <td>100</td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                <th>TOTAL MONEY</th>
-                <td></td>
-                <td>4,535</td>
-                <td>5,235</td>
-                <td>5,450</td>
-                <td>5,535</td>
-                <td>5,325</td>
-                <td>5,765</td>
-                <td>5,835</td>
-                </tr>
-            </tfoot>
-            </table> -->
     </div>
       <footer>
         <div class="footer-content">
