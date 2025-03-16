@@ -33,6 +33,10 @@ const worldPoint = new CANNON.Vec3(0, 0, 0);
 
 // Sphere Config
 const sphereRadius = 2.5;
+const spawnDistanceThreshold = 8; // Min distance from camera
+const repulsionThreshold = 10; // Distance to start pushing away from camera
+const repulsionStrength = 500;
+
 const sphereMaterial = new CANNON.Material();
 sphereMaterial.restitution = 0.4; // Slight bounciness
 sphereMaterial.friction = 0;
@@ -53,18 +57,28 @@ const sphereShape = new CANNON.Sphere(sphereRadius);
 
 // Function to Create a New Sphere (With Scaling Animation)
 function createSphere(initialScale = 0) {
+    // Generate a valid spawn position
+    let position;
+    do {
+        position = new CANNON.Vec3(
+            (Math.random() - 0.5) * 50,
+            (Math.random() - 0.5) * 50,
+            (Math.random() - 0.5) * 50
+        );
+    } while (position.distanceTo(camera.position) < spawnDistanceThreshold);
+
     // Three.js Mesh
     const material = new THREE.MeshStandardMaterial({
         color: new THREE.Color(`hsl(${Math.random() * 360}, 100%, 70%)`),
         roughness: 0.85,
-        metalness: 0.2,  // More matte appearance
-        transparent: true, // Enable transparency
-        opacity: 0.99, // Adjust transparency (0 = invisible, 1 = solid)
-        depthWrite: false // Helps avoid transparency issues
+        metalness: 0.2,
+        transparent: true,
+        opacity: .95,
+        depthWrite: false
     });
     const geometry = new THREE.SphereGeometry(sphereRadius, 64, 64);
     const sphereMesh = new THREE.Mesh(geometry, material);
-    sphereMesh.scale.set(initialScale, initialScale, initialScale); // Start small for animation
+    sphereMesh.scale.set(initialScale, initialScale, initialScale);
     scene.add(sphereMesh);
     spheres.push(sphereMesh);
 
@@ -73,20 +87,16 @@ function createSphere(initialScale = 0) {
         mass: 300,
         shape: sphereShape,
         material: sphereMaterial,
-        position: new CANNON.Vec3(
-            (Math.random() - 0.5) * 20,
-            (Math.random() - 0.5) * 20,
-            (Math.random() - 0.5) * 20
-        ),
+        position,
         angularDamping: 0.2,
         linearDamping: 0.01
     });
 
     // Apply random impulse for floating effect
     sphereBody.applyImpulse(new CANNON.Vec3(
-        (Math.random() - 0.5) * 50,
-        (Math.random() - 0.5) * 50,
-        (Math.random() - 0.5) * 50
+        (Math.random() - 0.5) * 1000,
+        (Math.random() - 0.5) * 1000,
+        (Math.random() - 0.5) * 1000
     ), new CANNON.Vec3(0, 0, 0));
 
     world.addBody(sphereBody);
@@ -98,7 +108,7 @@ function createSphere(initialScale = 0) {
 
 // Create Initial Spheres
 for (let i = 0; i < sphereCount; i++) {
-    createSphere(1); // Start at full scale
+    createSphere(1);
 }
 
 // Function to Animate Scale (Shrink or Expand)
@@ -124,31 +134,24 @@ function animateScale(mesh, targetScale, duration) {
 function replaceRandomSphere() {
     if (spheres.length === 0) return;
 
-    // Select a random sphere index
     const index = Math.floor(Math.random() * spheres.length);
     const mesh = spheres[index];
     const body = sphereBodies[index];
 
-    // Animate shrinking
     animateScale(mesh, 0, 0.5);
 
-    // Wait for shrink animation, then remove and respawn
     setTimeout(() => {
         scene.remove(mesh);
         world.removeBody(body);
         spheres.splice(index, 1);
         sphereBodies.splice(index, 1);
 
-        // Spawn a new sphere with expansion effect
         createSphere(0);
-    }, 500); // Wait for animation to finish
+    }, 500);
 }
 
 // Set interval to shrink & replace a sphere every few seconds
 setInterval(replaceRandomSphere, 1000);
-
-
-
 
 // Mouse Attraction Force
 const mouse = new CANNON.Vec3(0, 0, 0);
@@ -158,21 +161,28 @@ window.addEventListener("mousemove", (event) => {
     mouse.set(x * 5, y * 5, 0);
 });
 
+// Track focus state
+let isFocused = true;
+window.addEventListener("blur", () => { isFocused = false; });
+window.addEventListener("focus", () => { isFocused = true; });
+
 // Animation Loop
+const maxSpeed = 20; // Adjust max speed as needed
+
 function animate() {
     requestAnimationFrame(animate);
 
-    // Step the physics world
+    if (!isFocused) return; // Freeze movement when not focused
+
     world.step(1 / 60);
 
-    // Update Three.js objects based on Cannon.js physics
     for (let i = 0; i < spheres.length; i++) {
         const body = sphereBodies[i];
         const mesh = spheres[i];
 
         // Stronger Attraction Formula
         const distance = body.position.distanceTo(mouse);
-        const forceMultiplier = Math.min(5000 / (distance * 0.05 + 1), 100);
+        const forceMultiplier = 10;
 
         const force = new CANNON.Vec3(
             (mouse.x - body.position.x) * forceMultiplier,
@@ -182,6 +192,21 @@ function animate() {
 
         body.applyForce(force, worldPoint);
 
+        // **Repulsion from Camera**
+        const cameraToSphere = new CANNON.Vec3().copy(body.position).vsub(camera.position);
+        const distanceFromCamera = cameraToSphere.length();
+
+        if (distanceFromCamera < repulsionThreshold) {
+            const repulsionForce = cameraToSphere.unit().scale(repulsionStrength);
+            body.applyForce(repulsionForce, worldPoint);
+        }
+
+        // **Limit max speed**
+        const speed = body.velocity.length();
+        if (speed > maxSpeed) {
+            body.velocity.scale(maxSpeed / speed, body.velocity); // Scale velocity to max speed
+        }
+
         // Sync Three.js mesh with Cannon.js body
         mesh.position.copy(body.position);
         mesh.quaternion.copy(body.quaternion);
@@ -190,9 +215,7 @@ function animate() {
     renderer.render(scene, camera);
 }
 
-
-
-// Resize Handling (Ensures Three.js scene resizes with the window)
+// Resize Handling
 window.addEventListener("resize", () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     camera.aspect = window.innerWidth / window.innerHeight;
