@@ -60,6 +60,9 @@ const sphereCount = isMobile() ? 40 : 30;
 const sphereShape = new CANNON.Sphere(sphereRadius);
 
 // Function to Create a New Sphere (With Scaling Animation)
+const colors = [
+    0xBEFCFF, 0xDEFFFA , 0xFFDAF5, 0xB0E1FF, 0xE6C6FF
+];
 function createSphere(initialScale = 0) {
     // Generate a valid spawn position
     let position;
@@ -83,6 +86,9 @@ function createSphere(initialScale = 0) {
     const geometry = new THREE.SphereGeometry(sphereRadius, 64, 64);
     const sphereMesh = new THREE.Mesh(geometry, material);
     sphereMesh.scale.set(initialScale, initialScale, initialScale);
+    renderer.shadowMap.enabled = true;
+    sphereMesh.castShadow = true;
+    sphereMesh.receiveShadow = true;
     scene.add(sphereMesh);
     spheres.push(sphereMesh);
 
@@ -186,7 +192,7 @@ function animate() {
 
         // Stronger Attraction Formula
         const distance = body.position.distanceTo(mouse);
-        const forceMultiplier = 20;
+        const forceMultiplier = 50;
 
         const force = new CANNON.Vec3(
             (mouse.x - body.position.x) * forceMultiplier,
