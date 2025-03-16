@@ -31,11 +31,15 @@ const world = new CANNON.World();
 world.gravity.set(0, 0, 0);
 const worldPoint = new CANNON.Vec3(0, 0, 0);
 
+function isMobile() {
+    return /Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent) || window.innerWidth < 768;
+}
+
 // Sphere Config
-const sphereRadius = 2.5;
+const sphereRadius =  2.5;
 const spawnDistanceThreshold = 8; // Min distance from camera
-const repulsionThreshold = 10; // Distance to start pushing away from camera
-const repulsionStrength = 500;
+const repulsionThreshold = 7; // Distance to start pushing away from camera
+const repulsionStrength = 5000;
 
 const sphereMaterial = new CANNON.Material();
 sphereMaterial.restitution = 0.4; // Slight bounciness
@@ -52,7 +56,7 @@ world.addContactMaterial(contactMaterial);
 // Sphere Initialization
 const spheres = [];
 const sphereBodies = [];
-const sphereCount = 30;
+const sphereCount = isMobile() ? 40 : 30;
 const sphereShape = new CANNON.Sphere(sphereRadius);
 
 // Function to Create a New Sphere (With Scaling Animation)
@@ -61,9 +65,9 @@ function createSphere(initialScale = 0) {
     let position;
     do {
         position = new CANNON.Vec3(
-            (Math.random() - 0.5) * 50,
-            (Math.random() - 0.5) * 50,
-            (Math.random() - 0.5) * 50
+            (Math.random() - 0.5) * 30,
+            (Math.random() - 0.5) * 30,
+            (Math.random() - 0.5) * 30
         );
     } while (position.distanceTo(camera.position) < spawnDistanceThreshold);
 
@@ -182,7 +186,7 @@ function animate() {
 
         // Stronger Attraction Formula
         const distance = body.position.distanceTo(mouse);
-        const forceMultiplier = 10;
+        const forceMultiplier = 20;
 
         const force = new CANNON.Vec3(
             (mouse.x - body.position.x) * forceMultiplier,
